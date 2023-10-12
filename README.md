@@ -14,40 +14,83 @@ Antes de comenzar a codificar un router, debemos cubrir un par de conceptos,
 como la razón por la que existen los routers: la aplicación de página única
 (Single Page Application - SPA).
 
-## Qué es un Single Page Application (SPA)
+## ¿Qué es un Single Page Application (SPA)?
 
-Una aplicación de página única, en inglés Single Page Application o SPA,
-es una aplicación web que utiliza un único archivo HTML
-(probablemente `index.html`) y actualiza dinámicamente el contenido de ese
-`index.html` a medida que el usuario interactúa con la aplicación.
+Un Aplicación de Página Única, en inglés Single Page Application (SPA)
+es una aplicación web que carga un único archivo HTML
+(comúnmente llamado `index.html`) y actualiza dinámicamente el contenido
+mientras el usuario interactúa con la aplicación.
 
-En lugar de cargar páginas HTML separadas para cada navegación,
-los SPA utilizan JavaScript para buscar y representar datos en la misma página
-HTML, dando la ilusión de que estamos navegando para separar páginas HTML,
-cuando en realidad es la misma página con contenido diferente renderizado
-(dibujado).
-
-## Qué es un router
+En lugar de cargar páginas HTML separadas y completas cada vez que
+se realiza una acción, como hacer clic en un enlace, solo se carga
+el contenido necesario para actualizar la vista actual. Una SPA
+da la ilusión de que estamos navegando por páginas HTML separadas,
+pero en realidad es la misma página con contenido diferente renderizado
+(dibujado) dinámicamente.
+## ¿Qué es un router?
 
 En el contexto de los SPA, un router es un módulo de JavaScript que
-gestiona la navegación dentro la aplicación.
-Un router ayuda a crear una sensación de múltiples páginas o "vistas"
-dentro de un SPA al manejar interacciones del usuario que provocan
-cambios en la URL y la presentación del contenido apropiado.
+gestiona la navegación dentro la aplicación sin necesidad de recargar
+la página completa. Su función principal es mapear las URL a las
+diferentes vistas o componentes de la aplicación y actualizar la interfaz
+de usuario según la URL actual.
 
-Por ejemplo, si está en la página de inicio de un SPA `www.website.com` y
-luego hace clic en un link del `<nav>` que te lleva a `www.website.com/about`,
-el router se encarga de responder cambiando la URL, encontrar el contenido
-apropiado para "about" y reemplazar el HTML en `index.html`
-con el nuevo contenido. No existe un archivo `about.html` tal cual
+Por ejemplo, si un usuario está en la página de inicio de un SPA `www.website.com`,
+luego hace clic en un link "About" que lo lleva a `www.website.com/about`,
+el router detecta los cambios en la URL y encuentra y carga dinámicamente el
+contenido correspondiente para "about". No existe un archivo `about.html` tal cual
 pero con el router y view parece que estamos navegando a una pagina nueva.
+Esto permite que la SPA simule la experiencia de navegación de una aplicación de
+varias páginas, aunque en realidad solo haya cargado una única página HTML al
+principio.
 
-### Entonces, qué son "routes" y "views"
+## Anatomía de una URL
+
+Considera la siguiente URL de ejemplo:
+
+``http://www.ejemplo.com:8080/pagina/ejemplo?clave=valor#seccion``
+
+Las partes de esta URL son:
+
+[protocol](https://developer.mozilla.org/en-US/docs/Web/API/URL/protocol):
+indica el protocolo utilizado para acceder al recurso. En la URL de ejemplo es `http:`.
+
+[host](https://developer.mozilla.org/en-US/docs/Web/API/URL/host):
+indica la ubicación del servidor que aloja el recurso. Puede ser
+una dirección IP o un nombre de dominio, en el ejemplo `www.ejemplo.com`.
+
+[port](https://developer.mozilla.org/en-US/docs/Web/API/URL/port):
+especifica el puerto del servidor al que se debe conectar. Si no
+se especifica, se usa el puerto predeterminado para el protocolo
+(80 para HTTP, 443 para HTTPS). En el ejemplo el puesto es  `8080`.
+
+[pathname](https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname):
+especifica la ubicación del recurso en el servidor. En el
+ejemplo, `/pagina/ejemplo`.
+
+[search](https://developer.mozilla.org/en-US/docs/Web/API/URL/search):
+contiene parámetros de búsqueda para la solicitud. Se inicia
+con el símbolo de interrogación y tiene la forma
+`clave=valor&clave2=valor2`.
+
+[hash](https://developer.mozilla.org/en-US/docs/Web/API/URL/hash):
+identifica una sección específica dentro del recurso. Se inicia
+con el símbolo de numeral (#) seguido de un identificador. En la
+URL de ejemplo, el hash es `seccion`
+
+JavaScript proporciona el 
+[`window.location`](https://developer.mozilla.org/es/docs/Web/API/Location)
+a las diferentes partes de la URL actual de nuestra aplicación.
+Consulta la documentacion para familiarizarte con estas propiedades.
+
+### Entonces, ¿qué son "routes" y "views"?
 
 En su forma más simple, las rutas (routes) generalmente se definen como pares
 `key-value`,
-donde `key` es la ruta o pathname de URL y el `value` es
-una función asociada que representará la vista (view).
+donde `key` es el pathname de URL y el `value` es
+una función asociada que genera la vista (view). Por ejemplo,
+en el siguiente bloque de código, se define un objeto, donde
+las llaves son las pathnames y los valores son funciones.
 
 ```js
 const routes = {
@@ -57,12 +100,18 @@ const routes = {
 ```
 
 Las rutas se pueden definir de formas más complejas pero la idea base es
-la misma, un determinado ruta se relaciona con una determinada función de
+la misma, una determinada ruta se relaciona con una determinada función de
 vista.
 
-En este ejemplo, `Home` y `About` son funciones que, cuando se invocan,
-construirán el html para la página y devolverá un elemento DOM que el
-router agregará al `index.html`.
+En este ejemplo, para la ruta "/" se debe usar la función `Home` y
+para la ruta "/about" se debe usar la función `About`.
+`Home` y `About`, cuando se invocan,
+construirán la vista correspondiente y devolverán un elemento
+[DOM](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement)
+que el router agregará al `index.html`.
+
+Por ejemplo, en el siguiente bloque de código, se define
+una función `Home`, que crea, configura y retorna un <h1>.
 
 ```js
 const Home = () => {
@@ -72,34 +121,12 @@ const Home = () => {
 }
 ```
 
-Entonces, si cargamos la página web y el nombre de la ruta es `/`,
-el router lo sabrá por `routes["/"]` deberíamos invocar la función `Home`
-y veremos "I'm the Home Page".
+Si cargamos la página web y el pathname es `/` entonces
+el router encontrará que debe invocar la función `Home`
+e inyectará el <h1> que retorna y en la página web se
+visualizará "I'm the Home Page".
 
-O si cargamos la página web en `/about`, el router
-sepa por `routes["/about"]` cómo llamar a la función `About`.
-Hay algunos pasos intermedios, pero esa es más o menos la idea.
 
-## Sobre window.location
-
-Ya que mencionamos `pathname`, revisemos brevemente `window.location`.
-Con el objeto `window.location`, podemos acceder a partes de la URL
-actual mediante programación.
-
-Ubicación de ventana de ejemplo:
-
-- `href`: `https://example.org:8080/foo/bar?q=baz#bang`
-- `origin`: `https://example.org:8080`
-- `port`: `8080`
-- `pathname`: `/foo/bar`
-- `search`: `?q=baz`
-- `hash`: `#bang`
-
-[Ver interactivamente partes de la URL](https://developer.mozilla.org/en-US/play)
-
-Si no está familiarizado con `window.location` y sus propiedades
-`origin`, `pathname`, `search`, ahora sería un buen momento para leer
-[los documentos de `location`.](https://developer.mozilla.org/es/docs/Web/API/Location)
 
 ## Presentamos la History API
 
