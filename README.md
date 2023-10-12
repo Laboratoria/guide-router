@@ -111,7 +111,7 @@ construirán la vista correspondiente y devolverán un elemento
 que el router agregará al `index.html`.
 
 Por ejemplo, en el siguiente bloque de código, se define
-una función `Home`, que crea, configura y retorna un <h1>.
+una función `Home`, que crea, configura y retorna un `<h1>`.
 
 ```js
 const Home = () => {
@@ -123,7 +123,7 @@ const Home = () => {
 
 Si cargamos la página web y el pathname es `/` entonces
 el router encontrará que debe invocar la función `Home`
-e inyectará el <h1> que retorna y en la página web se
+e inyectará el `<h1>` que retorna y en la página web se
 visualizará "I'm the Home Page".
 
 
