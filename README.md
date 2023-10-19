@@ -58,7 +58,7 @@ indica el protocolo utilizado para acceder al recurso. En la URL de ejemplo es `
 
 [host](https://developer.mozilla.org/en-US/docs/Web/API/URL/host):
 indica la ubicación del servidor que aloja el recurso. Puede ser
-una dirección IP o un nombre de dominio, en el ejemplo `www.ejemplo.com`.
+una dirección IP o un nombre de dominio. En el ejemplo es `www.ejemplo.com`.
 
 [port](https://developer.mozilla.org/en-US/docs/Web/API/URL/port):
 especifica el puerto del servidor al que se debe conectar. Si no
@@ -122,18 +122,18 @@ const Home = () => {
 }
 ```
 
-Si cargamos la página web y el pathname es `/` entonces
+Si cargamos la página web y el pathname es `/`,
 el router encontrará que debe invocar la función `Home`
-e inyectará el `<h1>` que retorna y en la página web se
+e inyectará el `<h1>` que retorna. Finalmente, en la página web se
 visualizará "I'm the Home Page".
 
 
 
 ## Presentamos la History API
 
-A medida que navega por páginas web y carga una página tras otra, agrega
-contenido al historial de su navegador. Los botones de flecha hacia adelante
-y atrás en cada navegador le permiten avanzar y retroceder en su historial.
+A medida que navegas por páginas web y cargas una página tras otra, se está agregando
+contenido al historial de tu navegador. Los botones de flecha hacia adelante
+y atrás en cada navegador permiten avanzar y retroceder en el historial.
 
 Con la History API podemos acceder y manipular el historial del navegador
 sin activar recargas de página completa. Un router en una SPA funciona
@@ -144,51 +144,51 @@ usando los botones en su navegador.
 
 Si no fuera así, un SPA aún podría mostrar nuevas vistas
 en el mismo html, pero la URL probablemente no se actualizará
-y el historial nunca se agregará, por lo que presionar "back"
+y nunca se agregará al historial, por lo que presionar "back"
 al navegador saldría del sitio web por completo.
 
 Los actores clave relacionados con la History API que
 utiliza un router son:
 
 - [El método `pushState`](https://developer.mozilla.org/es/docs/Web/API/History/pushState)
-  nos permite agregar un nuevo estado a la cola del historial de la ventana
+  nos permite agregar un nuevo estado a la cola del historial de la ventana.
 - [El evento `popstate`](https://developer.mozilla.org/es/docs/Web/API/Window/popstate_event)
   es un evento que la ventana se activa cuando cambia el historial.
   Por ejemplo, cuando alguien presiona hacia atrás en el navegador.
 
 Otros métodos de interés son `replaceState`, `go`, `forward`, `back`.
-Consulte [los documentos completos de History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
-y [Trabajando con la History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API)
+Consulta [la documentación completa de History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API)
+y [Trabajando con la History API](https://developer.mozilla.org/en-US/docs/Web/API/History_API/Working_with_the_History_API).
 
-Otro evento de interés es `hashchange`, que no vamos a usar en nuestra router
-pero vale la pena saber. Consulte [los documentos de `hashchange`](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event)
+Otro evento de interés es `hashchange`, que no vamos a usar en nuestro router
+pero vale la pena conocerlo. Consulta [la documentación de `hashchange`](https://developer.mozilla.org/en-US/docs/Web/API/Window/hashchange_event)
 para mas información.
 
 ## Funcionalidades del router
 
 Un router básico debería:
 
-- Almacenar las rutas de la aplicación
-- Para un nombre de ruta determinado en la URL, muestre la vista
+- Almacenar las rutas de la aplicación.
+- Para un nombre de ruta determinado en la URL, renderizar la vista
   adecuada (y pasar los argumentos apropiados a la vista si hay
-  search parámetros)
+  search parámetros).
 - Responder a la navegación dentro de la aplicación
   (enlaces, clics en botones, etc.)
   + agregando un nuevo estado al historial del navegador para actualizar la URL
-  + luego renderiza la vista apropiada según la ruta
+  + luego renderizando la vista apropiada según la ruta
     (y pasar el argumentos apropiados si hay parámetros)
 - Responder a la navegación con los botones de avance y retroceso en el
   navegador
   + analizando la nueva URL para la ruta y los parámetros
-  + luego renderiza la vista apropiada según la ruta
+  + luego renderizando la vista apropiada según la ruta
     (y pasar los argumentos apropiados si hay parámetros)
-- Cargando una página de error cuando la ruta no está definido en las rutas
+- Cargando una página de error cuando la ruta no está definido en las rutas.
 
 No hay ningún error, mencionamos "renderizar la vista apropiada según la ruta"
-tres veces, entonces esto significa que escribiremos una función para esto
+tres veces, entonces esto significa que escribiremos una función que haga esto
 para poder usarla varias veces.
 
-Ahora profundizaremos explicando cómo lograr estas funcionalidades en código
+Ahora profundizaremos explicando cómo lograr estas funcionalidades con código
 en `router.js`.
 
 ### 1. Almacenar las rutas de la aplicación
@@ -207,14 +207,14 @@ En código, eso significa que el router debe tener:
 - `setRoutes(routes)`: Esta función asigna el valor del parámetro
   `routes` al objeto `ROUTES`.
 
-### 2. Para una ruta determinada en la URL, genere la vista adecuada
+### 2. Para una ruta determinada en la URL, generar la vista adecuada
 
 El router debe tener una función que, cuando se le da un `pathname`,
-muestre la vista. Entonces, ¿qué significa "muestra la vista"?
+muestre la vista. Entonces, ¿qué significa "generar la vista"?
 
 Si piensas en pseudocódigo, debemos borrar el html de la página actual,
-llame a la nueva función de vista correcta para renderizarla,
-y luego coloque el nuevo html en la página.
+llamar a la nueva función de vista correcta para renderizarla,
+y luego colocar el nuevo html en la página.
 
 ```js
 const renderView = (pathname, props) => {
@@ -494,7 +494,7 @@ donde se representarán sus vistas.
 </head>
 <body>
     <div id="root"></div> <!-- This is your root element -->
-    <script src="your-app-script.js"></script>
+    <script type="module" src="your-app-script.js"></script>
 </body>
 </html>
 ```
