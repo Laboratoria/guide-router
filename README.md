@@ -2,8 +2,8 @@
 
 ## Índice
 
-- [Qué es un Single Page Application (SPA)](#qué-es-un-single-page-application-spa)
-- [Qué es un router](#qué-es-un-router)
+- [¿Qué es un Single Page Application (SPA?)](#qué-es-un-single-page-application-spa)
+- [¿Qué es un router?](#qué-es-un-router)
 - [Sobre window.location](#sobre-windowlocation)
 - [Presentamos la History API](#presentamos-la-history-api)
 - [Funcionalidades del router](#funcionalidades-del-router)
@@ -27,6 +27,7 @@ el contenido necesario para actualizar la vista actual. Una SPA
 da la ilusión de que estamos navegando por páginas HTML separadas,
 pero en realidad es la misma página con contenido diferente renderizado
 (dibujado) dinámicamente.
+
 ## ¿Qué es un router?
 
 En el contexto de los SPA, un router es un módulo de JavaScript que
@@ -38,7 +39,7 @@ de usuario según la URL actual.
 Por ejemplo, si un usuario está en la página de inicio de un SPA `www.website.com`,
 luego hace clic en un link "About" que lo lleva a `www.website.com/about`,
 el router detecta los cambios en la URL y encuentra y carga dinámicamente el
-contenido correspondiente para "about". No existe un archivo `about.html` tal cual
+contenido correspondiente para "about". No existe un archivo `about.html` como cual
 pero con el router y view parece que estamos navegando a una pagina nueva.
 Esto permite que la SPA simule la experiencia de navegación de una aplicación de
 varias páginas, aunque en realidad solo haya cargado una única página HTML al
