@@ -319,7 +319,7 @@ algo diferente dependiendo del valor.
 Ejemplo:
 
 ```js
-const Profile = ({ name }) => {
+export const Profile = ({ name }) => {
   const el = document.createElement("p");
   el.innerHTML = `Hello ${name}`;
   return el;
@@ -510,7 +510,7 @@ Por ejemplo:
 ```js
 // src/views/Home.js
 
-function Home(props) {
+export function Home(props) {
   const viewEl = document.createElement('div');
   viewEl.textContent = 'Welcome to the home page!';
   return viewEl;
@@ -518,7 +518,7 @@ function Home(props) {
 
 // src/views/About.js
 
-function About(props) {
+export function About(props) {
   const viewEl = document.createElement('div');
   viewEl.textContent = 'This is the About page.';
   return viewEl;
@@ -530,7 +530,7 @@ function About(props) {
 ### 3. Codifique el router
 
 En su propio archivo `router.js`, implemente las partes del router siguiendo
-[la API descrita anteriormente](##API_básica_del_router).
+[la API descrita anteriormente](#api-de-router-básico).
 La API que revisamos define dos variables (`ROUTES` y `rootEl`)
 y seis funciones.
 
@@ -589,13 +589,13 @@ En su código JavaScript (por ejemplo, `index.js`), inicialice su router
 definiendo sus rutas y configurando el elemento raíz:
 
 ```js
-import HomeView from './views/HomeView';
+import Home from './views/Home';
 // ... import other views
 import { setRootEl, setRoutes, onURLChange } from './router.js';
 
 // Define your routes and their associated views
 const routes = {
-  '/': HomeView,
+  '/': Home,
   // ...
 };
 
@@ -623,7 +623,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 ```
 
-Pruebe para ver si no importa con qué URL válida de su SPA comience,
+Pruebe para ver si, independientemente de qué URL válida se inicie su SPA,
 se carga la vista correcta.
 
 ### 6. Implementar la navegación en la SPA
@@ -635,7 +635,7 @@ Recuerde que `navigateTo` debe tomar argumentos para `pathname` y `props`.
 ```js
 // import navigateTo
 
-const Home = (props) => {
+export const Home = (props) => {
   // ...
   linkEl.addEventListener('click', () => navigateTo("/about", { name: "Xochitl" }));
   // return el
@@ -668,7 +668,7 @@ parámetro, llamémos `props`, que es un objeto con que podemos pasar informaci�
 a las vistas.
 
 ```js
-const Home = (props) => {
+export const Home = (props) => {
   const el = document.createElement('div');
   el.textContent = `¡Bienvenido a la página de inicio, ${props.name}!`;
   console.log(props.id);
