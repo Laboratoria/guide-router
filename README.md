@@ -11,13 +11,13 @@
 - [Codificación de un SPA y un router](#codificación-de-un-spa-y-un-router)
 
 Antes de comenzar a codificar un router, debemos cubrir un par de conceptos,
-como la razón por la que existen los routers: la aplicación de página única
-(Single Page Application - SPA).
+como la razón por la que existen los routers: las Single Page Application
+(aplicación de página única o SPA por sus siglas en inglés).
 
-## ¿Qué es un Single Page Application (SPA)?
+## ¿Qué es una Single Page Application (SPA)?
 
 Un Aplicación de Página Única, en inglés Single Page Application (SPA)
-es una aplicación web que carga un único archivo HTML
+es una aplicación web que carga todo su contenido a partir de un único archivo HTML
 (comúnmente llamado `index.html`) y actualiza dinámicamente el contenido
 mientras el usuario interactúa con la aplicación.
 
@@ -30,17 +30,17 @@ pero en realidad es la misma página con contenido diferente renderizado
 
 ## ¿Qué es un router?
 
-En el contexto de los SPA, un router es un módulo de JavaScript que
+En el contexto de los SPA, un router es un [`módulo`](https://es.javascript.info/modules-intro) de JavaScript que
 gestiona la navegación dentro la aplicación sin necesidad de recargar
-la página completa. Su función principal es mapear las URL a las
+la página completa. Su función principal es asignar las URL a las
 diferentes vistas o componentes de la aplicación y actualizar la interfaz
 de usuario según la URL actual.
 
 Por ejemplo, si un usuario está en la página de inicio de un SPA `www.website.com`,
 luego hace clic en un link "About" que lo lleva a `www.website.com/about`,
-el router detecta los cambios en la URL y encuentra y carga dinámicamente el
-contenido correspondiente para "about". No existe un archivo `about.html` como cual
-pero con el router y view parece que estamos navegando a una pagina nueva.
+el router detecta los cambios en la URL, encuentra y carga dinámicamente el
+contenido correspondiente para "about". No existe un archivo `about.html` como tal,
+pero el router y view crean la sensación de que estamos navegando a una página nueva.
 Esto permite que la SPA simule la experiencia de navegación de una aplicación de
 varias páginas, aunque en realidad solo haya cargado una única página HTML al
 principio.
@@ -123,8 +123,7 @@ const Home = () => {
 ```
 
 Si cargamos la página web y el pathname es `/`,
-el router encontrará que debe invocar la función `Home`
-e inyectará el `<h1>` que retorna. Finalmente, en la página web se
+el router encontrará que debe invocar la función `Home` y tomar el  `<h1>` que esta función retorna para poder agregarlo a nuestro archivo HTML. Finalmente, en la página web se
 visualizará "I'm the Home Page".
 
 
@@ -137,10 +136,9 @@ y atrás en cada navegador permiten avanzar y retroceder en el historial.
 
 Con la History API podemos acceder y manipular el historial del navegador
 sin activar recargas de página completa. Un router en una SPA funciona
-junto con la History API para lograr esto. Carga de vista
-mientras se agrega al historial del navegador, preservando
-así la forma en que un usuario puede moverse atrás y adelante
-usando los botones en su navegador.
+junto con la History API para lograr esto. Carga la vista
+mientras se agrega al historial del navegador, preservando de esta manera la forma en que un usuario puede moverse atrás y adelante
+usando los botones en su navegador sin necesidad de cargar una nueva pagina
 
 Si no fuera así, un SPA aún podría mostrar nuevas vistas
 en el mismo html, pero la URL probablemente no se actualizará
