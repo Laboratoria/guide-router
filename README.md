@@ -117,7 +117,7 @@ una función `Home`, que crea, configura y retorna un `<h1>`.
 ```js
 const Home = () => {
    const el = document.createElement("h1");
-   el.innerHTML("I'm the Home Page");
+   el.innerHTML = "I'm the Home Page";
   return el;
 }
 ```
