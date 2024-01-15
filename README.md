@@ -1,14 +1,16 @@
+<!-- markdownlint-enable MD013 -->
+
 # Cómo codificar un router
 
 ## Índice
 
 - [¿Qué es un Single Page Application (SPA?)](#qué-es-un-single-page-application-spa)
 - [¿Qué es un router?](#qué-es-un-router)
-- [Sobre window.location](#sobre-windowlocation)
+- [Sobre window.location](#sobre-window.location)
 - [Presentamos la History API](#presentamos-la-history-api)
 - [Funcionalidades del router](#funcionalidades-del-router)
 - [API de router básico](#api-de-router-básico)
-- [Codificación de un SPA y un router](#codificación-de-un-spa-y-un-router)
+- [Codificación de un SPA y router](#Codificación-de-un-spa-y-router)
 
 Antes de comenzar a codificar un router, debemos cubrir un par de conceptos,
 como la razón por la que existen los routers: las Single Page Application
@@ -30,8 +32,8 @@ pero en realidad es la misma página con contenido diferente renderizado
 
 ## ¿Qué es un router?
 
-En el contexto de los SPA, un router es un [`módulo`](https://es.javascript.info/modules-intro) de JavaScript que
-gestiona la navegación dentro la aplicación sin necesidad de recargar
+En el contexto de los SPA, un router es un [`módulo`](https://es.javascript.info/modules-intro)
+de JavaScript que gestiona la navegación dentro la aplicación sin necesidad de recargar
 la página completa. Su función principal es asignar las URL a las
 diferentes vistas o componentes de la aplicación y actualizar la interfaz
 de usuario según la URL actual.
@@ -79,7 +81,7 @@ identifica una sección específica dentro del recurso. Se inicia
 con el símbolo de numeral (#) seguido de un identificador. En la
 URL de ejemplo, el hash es `seccion`
 
-JavaScript proporciona el 
+JavaScript proporciona el
 [`window.location`](https://developer.mozilla.org/es/docs/Web/API/Location)
 a las diferentes partes de la URL actual de nuestra aplicación.
 Consulta la documentacion para familiarizarte con estas propiedades.
@@ -123,10 +125,9 @@ const Home = () => {
 ```
 
 Si cargamos la página web y el pathname es `/`,
-el router encontrará que debe invocar la función `Home` y tomar el  `<h1>` que esta función retorna para poder agregarlo a nuestro archivo HTML. Finalmente, en la página web se
-visualizará "I'm the Home Page".
-
-
+el router encontrará que debe invocar la función `Home` y tomar el  `<h1>` que
+esta función retorna para poder agregarlo a nuestro archivo HTML.
+Finalmente, en la página web se visualizará "I'm the Home Page".
 
 ## Presentamos la History API
 
@@ -137,7 +138,8 @@ y atrás en cada navegador permiten avanzar y retroceder en el historial.
 Con la History API podemos acceder y manipular el historial del navegador
 sin activar recargas de página completa. Un router en una SPA funciona
 junto con la History API para lograr esto. Carga la vista
-mientras se agrega al historial del navegador, preservando de esta manera la forma en que un usuario puede moverse atrás y adelante
+mientras se agrega al historial del navegador, preservando de esta manera la
+forma en que un usuario puede moverse atrás y adelante
 usando los botones en su navegador sin necesidad de cargar una nueva pagina
 
 Si no fuera así, un SPA aún podría mostrar nuevas vistas
@@ -148,7 +150,7 @@ al navegador saldría del sitio web por completo.
 Los actores clave relacionados con la History API que
 utiliza un router son:
 
-- [El método `pushState`](https://developer.mozilla.org/es/docs/Web/API/History/pushState)
+- [El método `pushState`](https://developer.mozilla.org/es/docs/Web/APIF/History/pushState)
   nos permite agregar un nuevo estado a la cola del historial de la ventana.
 - [El evento `popstate`](https://developer.mozilla.org/es/docs/Web/API/Window/popstate_event)
   es un evento que la ventana se activa cuando cambia el historial.
@@ -172,13 +174,13 @@ Un router básico debería:
   search parámetros).
 - Responder a la navegación dentro de la aplicación
   (enlaces, clics en botones, etc.)
-  + agregando un nuevo estado al historial del navegador para actualizar la URL
-  + luego renderizando la vista apropiada según la ruta
+  - agregando un nuevo estado al historial del navegador para actualizar la URL
+  - luego renderizando la vista apropiada según la ruta
     (y pasar el argumentos apropiados si hay parámetros)
 - Responder a la navegación con los botones de avance y retroceso en el
   navegador
-  + analizando la nueva URL para la ruta y los parámetros
-  + luego renderizando la vista apropiada según la ruta
+  - analizando la nueva URL para la ruta y los parámetros
+  - luego renderizando la vista apropiada según la ruta
     (y pasar los argumentos apropiados si hay parámetros)
 - Cargando una página de error cuando la ruta no está definido en las rutas.
 
@@ -241,7 +243,7 @@ Para lograr esta funcionalidad en el código, `router.js` debe tener:
   pasar a la vista. La función `renderView` borra el contenido existente,
   encuentra la función de view para el `pathname` dado y
   llama a esa función de vista pasando `props` como argumento
-  ([más sobre eso en un momento](####pasar_argumentos_a_las_vistas)).
+  ( [más sobre eso en un momento](####Pasar_argumentos_a_las_vistas) ).
   Luego agrega el elemento devuelto por la función de vista al elemento `root`.
 
 ### 3. Responder a la navegación dentro de la aplicación
@@ -423,8 +425,8 @@ const renderView = (pathname, props) => {
 
 ## API de router básico
 
-Aquí hay una API completa de un router básico que tiene la funcionalidad
-que acabamos de cubrir.
+Para lograr su funcionalidad, el router tiene dos variables globales y privados
+(no exportados).
 
 - `routes` - objeto `{}`: Esta variable almacena información sobre las rutas en
   tu SPA. Cada ruta está asociada con una ruta y una vista o componente
@@ -433,6 +435,10 @@ que acabamos de cubrir.
 
 - `rootEl` - Elemento DOM: Esta variable almacena el elemento donde el
   contenido SPA cambiará/aparecerá.
+
+Estes variables puede ser leídos y cambiados a traves los métodos de API.
+Aquí hay una API completa de un router básico que tiene la funcionalidad
+que acabamos de cubrir.
 
 - `setRootEl(el)`: Esta función tiene un parámetro (elemento).
    Establece el elemento raíz donde se representarán las vistas,
@@ -609,7 +615,7 @@ window.addEventListener("DOMContentLoaded", () => {
 ### 5. Manejar la carga de la primera página
 
 Asegúrese de manejar la carga de la página inicial llamando a `onURLChange`
-con `window.location`. 
+con `window.location`.
 
 En `index.js`
 
@@ -698,4 +704,3 @@ en `renderView` usándolo como alternativa si
 
 Pruebe el comportamiento de su SPA manualmente haciendo clic e ingresando las URL.
 Escriba pruebas para la funcionalidad `router.js` si aún no lo ha hecho.
-
